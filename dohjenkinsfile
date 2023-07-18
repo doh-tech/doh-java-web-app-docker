@@ -1,0 +1,53 @@
+def BuildNumber = BUILD_NUMBER
+
+pipeline{
+    agent any
+    tools{
+        maven "maven3.9.3"
+    }
+    
+    stages{
+        
+    stage("Git Download"){
+        steps{
+          git branch: 'development', credentialsId: 'd094544e-1b2d-4eec-abfe-79dce92ce1af', url: 'https://github.com/doh-tech/doh-maven-web-application.git'  
+        }
+    }
+    stage("Building The Code"){
+        steps{
+            sh "mvn clean package"
+        }
+    }
+    stage("Execute SonarGube Report"){
+        steps{
+            sh "mvn sonar:sonar"
+        }
+    }
+    stage("Ofloading Artifact Into Nexus"){
+        steps{
+            sh "mvn deploy"
+        }
+    }
+    stage("Buildding Docker Image"){
+        steps{
+            sh "docker build -t doh1/maven-web-app:${BuildNumber} ."
+        }
+    }
+    stage("Ofload Docker Image Into dockerhub"){
+        steps{
+            withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIAL', variable: 'DOCKER_HUB_CREDENTIAL')]) {
+         sh "docker login -u doh1 -p ${DOCKER_HUB_CREDENTIAL}"
+         }
+          
+         sh "docker push doh1/maven-web-app:${BuildNumber}"
+            
+        }
+    }
+    stage("Deploying Into Kubernetes Cluster"){
+        steps{
+            sh "kubectl apply -f mavendeployment.yml"
+        }
+    }
+        
+}//clossing stage
+}//closssing pipeline
