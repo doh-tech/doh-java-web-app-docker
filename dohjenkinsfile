@@ -28,7 +28,7 @@ pipeline{
             sh "mvn deploy"
         }
     }
-    stage("Buildding Docker Image"){
+    stage("Building Docker Image"){
         steps{
             sh "docker build -t doh1/maven-web-app:${BuildNumber} ."
         }
