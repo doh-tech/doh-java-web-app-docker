@@ -1,3 +1,5 @@
 update from master
+updated from stage branch
+>>>>>>> stage
 this is glory file 
 using it for test 
