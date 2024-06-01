@@ -41,7 +41,7 @@
 	<div class="row">
 		<div class="col-md-8">
 			<h2>Welcome To Doh Tech, Hyttsville, Md,USA.</h2>
-			<h3>Contact@+3017411146,+2406364161</h3>
+			<h3>Contact@+3017411146</h3>
                         <h<h3>Welcome To The Family</h3>
                         <h3>TO GOD BE THE GLORY</h3>
                          <h3>ALHAMDULLILA</h3>                        
